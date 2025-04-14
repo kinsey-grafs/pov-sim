@@ -1,3 +1,7 @@
+// livedebugging {  // adds live debugging to alloy ui
+// 	enabled = true
+//   }
+
 otelcol.receiver.otlp "default" {
 	// configures the default grpc endpoint "0.0.0.0:4317"
 	grpc { }
@@ -100,6 +104,7 @@ otelcol.processor.transform "add_resource_attributes_as_metric_attributes" {
 		statements = [
 			"set(attributes[\"deployment.environment\"], resource.attributes[\"deployment.environment\"])",
 			"set(attributes[\"service.version\"], resource.attributes[\"service.version\"])",
+			"set(attributes[\"service_name\"], resource.attributes[\"service.name\"])",
 		]
 	}
 

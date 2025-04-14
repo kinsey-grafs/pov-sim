@@ -40,7 +40,8 @@ services:
     ports:
       - "4317:4317"  # OTLP gRPC
       - "4318:4318"  # OTLP HTTP (optional if using HTTP)
+      - "12345:12345" # Alloy UI
     volumes:
       - ./alloy/config.alloy:/etc/alloy/config.alloy
-    command: run /etc/alloy/config.alloy
+    command: run /etc/alloy/config.alloy --server.http.listen-addr=0.0.0.0:12345    
     restart: unless-stopped
