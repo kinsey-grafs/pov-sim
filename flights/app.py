@@ -1,3 +1,4 @@
+import os 
 import logging
 import time
 from functools import wraps
@@ -27,6 +28,17 @@ from opentelemetry._logs import set_logger_provider
 from opentelemetry.sdk._logs import LoggerProvider, LoggingHandler
 from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 from opentelemetry.exporter.otlp.proto.grpc._log_exporter import OTLPLogExporter
+
+# profiles imports
+import pyroscope
+
+pyroscope.configure(
+	application_name = "flights",
+    enable_logging = True,
+	server_address   = os.getenv("PYROSCOPE_URL"),
+    basic_auth_username = os.getenv("GRAFANA_CLOUD_USERNAME"),
+    basic_auth_password = os.getenv("PYROSCOPE_KEY")
+)
 
 # ----------------------------
 # Setup metrics, logging, and tracing

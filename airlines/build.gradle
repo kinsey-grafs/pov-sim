@@ -20,7 +20,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 	// tag::tests[]
+	implementation("io.pyroscope:agent:0.18.0")
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1' // For @PostConstruct
+	implementation 'javax.annotation:javax.annotation-api:1.3.2'
 	// end::tests[]
 }
 
