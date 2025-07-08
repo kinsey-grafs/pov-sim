@@ -7,13 +7,13 @@
 # Note: You may need to run `chmod +x airlines-loadgen.sh` in order to execute the script
 #
 # To run the script:
-# ./airlines-loadgen.sh
+# ./scripts/airlines-loadgen.sh
 #
 # Specify a 25% error rate, 30 sec duration, and base URL:
-# ./airlines-loadgen.sh -e 0.25 -d 30 -b http://localhost:8081
+# ./scripts/airlines-loadgen.sh -e 0.25 -d 30 -b http://localhost:8080
 #
 # Run help command to see details and usage options:
-# ./airlines-loadgen.sh -h
+# ./scripts/airlines-loadgen.sh -h
 
 LINE_SEPARATOR="----------------------------------------------------------"
 

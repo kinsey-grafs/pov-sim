@@ -7,10 +7,10 @@
 # Note: You may need to run `chmod +x flights-loadgen.sh` in order to execute the script
 #
 # To run the script:
-# ./flights-loadgen.sh
+# ./scripts/flights-loadgen.sh
 #
 # Specify a 25% error rate, 30 sec duration, and base URL:
-# ./flights-loadgen.sh -e 0.25 -d 30 -b http://localhost:5001
+# ./scripts/flights-loadgen.sh -e 0.25 -d 30 -b http://localhost:5001
 #
 # Run help command to see details and usage options:
 # ./flights-loadgen.sh -h
