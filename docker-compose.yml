@@ -1,15 +1,51 @@
 version: '1'
 services:
+  alloy:
+    image: grafana/alloy:latest
+    env_file:
+      - .env
+    ports:
+      - "4317:4317"  # OTLP gRPC
+      - "4318:4318"  # OTLP HTTP (optional if using HTTP)
+      - "12345:12345" # Alloy UI
+    volumes:
+      - ./alloy/config.alloy:/etc/alloy/config.alloy
+    command: run /etc/alloy/config.alloy --server.http.listen-addr=0.0.0.0:12345    
+    restart: unless-stopped
   airlines:
     build: 
       context: ./airlines
+    env_file:
+      - .env
     ports:
       - "8080:8080"
+    environment:
+      - JAVA_TOOL_OPTIONS=-javaagent:/otel/opentelemetry-javaagent.jar -javaagent:/profiling/pyroscope.jar -Dpyroscope.application.name=airlines
+      - OTEL_SERVICE_NAME=airlines
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4317 
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+      - PYROSCOPE_SERVER_ADDRESS=${PYROSCOPE_URL}
+      - PYROSCOPE_APPLICATION_NAME=airlines
+      - PYROSCOPE_BASIC_AUTH_USER=${GRAFANA_CLOUD_USERNAME}
+      - PYROSCOPE_BASIC_AUTH_PASSWORD=${PYROSCOPE_KEY}
+    volumes:
+      - ./airlines/opentelemetry-javaagent.jar:/otel/opentelemetry-javaagent.jar
+      - ./airlines/pyroscope.jar:/profiling/pyroscope.jar
+    depends_on:
+      - alloy
   flights:
     build: 
       context: ./flights
+    env_file:
+      - .env
     ports:
       - "5001:5001"
+    environment:
+      - OTEL_SERVICE_NAME=flights
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4317
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+    depends_on:
+      - alloy
   frontend:
     build: 
       context: ./frontend
